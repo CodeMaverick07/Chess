@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "./dist/index.js",
-      "use": "npx prisma generate && tsc -b && @vercel/node"
+      "use": "cd /src/db && npx prisma generate && cd ../../ && tsc -b && @vercel/node"
     }
   ],
   "routes": [
