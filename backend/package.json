@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "esbuild": "^0.23.0",
     "@prisma/client": "^5.16.1",
     "@types/dotenv": "^8.2.0",
     "@types/express-session": "^1.18.0",
