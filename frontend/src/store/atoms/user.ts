@@ -1,7 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom, selector } from "recoil";
 
 // How do you put this in .env? @hkirat
-export const BACKEND_URL = 'http://localhost:3000';
+export const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 export interface User {
   token: string;
   id: string;
@@ -9,18 +9,21 @@ export interface User {
 }
 
 export const userAtom = atom<User>({
-  key: 'user',
+  key: "user",
   default: selector({
-    key: 'user/default',
+    key: "user/default",
     get: async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/auth/refresh`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `http://backend.hemantjatal.me/auth/refresh`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           return data;

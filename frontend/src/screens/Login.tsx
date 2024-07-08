@@ -1,19 +1,18 @@
-import Google from '../assets/google.png';
-import Github from '../assets/github.png';
-import { useNavigate } from 'react-router-dom';
+import Google from "../assets/google.png";
+import Github from "../assets/github.png";
+import { useNavigate } from "react-router-dom";
 
-const BACKEND_URL =
-  import.meta.env.VITE_APP_BACKEND_URL ?? 'http://localhost:3000';
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
 const Login = () => {
   const navigate = useNavigate();
 
   const google = () => {
-    window.open(`${BACKEND_URL}/auth/google`, '_self');
+    window.open(`${BACKEND_URL}/auth/google`, "_self");
   };
 
   const github = () => {
-    window.open(`${BACKEND_URL}/auth/github`, '_self');
+    window.open(`${BACKEND_URL}/auth/github`, "_self");
   };
 
   return (
@@ -51,7 +50,7 @@ const Login = () => {
           />
           <button
             className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-300"
-            onClick={() => navigate('/game/random')}
+            onClick={() => navigate("/game/random")}
           >
             Enter as guest
           </button>
