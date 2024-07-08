@@ -11,12 +11,9 @@ interface User {
   id: string;
 }
 
-router.get("/refresh", async (req: Request, res: Response) => {
+router.get("/refresh", async (req: any, res: Response) => {
   if (req.user) {
     const user = req.user as User;
-
-    // Token is issued so it can be shared b/w HTTP and ws server
-    // Todo: Make this temporary and add refresh logic here
 
     const userDb = await db.user.findFirst({
       where: {
