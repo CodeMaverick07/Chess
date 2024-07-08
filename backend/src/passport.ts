@@ -1,14 +1,14 @@
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const GithubStrategy = require('passport-github2').Strategy;
-import passport from 'passport';
-import dotenv from 'dotenv';
-import { db } from './db';
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GithubStrategy = require("passport-github2").Strategy;
+import passport from "passport";
+import dotenv from "dotenv";
+import { db } from "./db/index";
 
 interface GithubEmailRes {
   email: string;
   primary: boolean;
   verified: boolean;
-  visibility: 'private' | 'public';
+  visibility: "private" | "public";
 }
 
 dotenv.config();
@@ -25,7 +25,7 @@ export function initPassport() {
     !GITHUB_CLIENT_SECRET
   ) {
     throw new Error(
-      'Missing environment variables for authentication providers',
+      "Missing environment variables for authentication providers"
     );
   }
 
@@ -34,19 +34,19 @@ export function initPassport() {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/callback',
+        callbackURL: "/auth/google/callback",
       },
       async function (
         accessToken: string,
         refreshToken: string,
         profile: any,
-        done: (error: any, user?: any) => void,
+        done: (error: any, user?: any) => void
       ) {
         const user = await db.user.upsert({
           create: {
             email: profile.emails[0].value,
             name: profile.displayName,
-            provider: 'GOOGLE',
+            provider: "GOOGLE",
           },
           update: {
             name: profile.displayName,
@@ -57,8 +57,8 @@ export function initPassport() {
         });
 
         done(null, user);
-      },
-    ),
+      }
+    )
   );
 
   passport.use(
@@ -66,15 +66,15 @@ export function initPassport() {
       {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: '/auth/github/callback',
+        callbackURL: "/auth/github/callback",
       },
       async function (
         accessToken: string,
         refreshToken: string,
         profile: any,
-        done: (error: any, user?: any) => void,
+        done: (error: any, user?: any) => void
       ) {
-        const res = await fetch('https://api.github.com/user/emails', {
+        const res = await fetch("https://api.github.com/user/emails", {
           headers: {
             Authorization: `token ${accessToken}`,
           },
@@ -86,7 +86,7 @@ export function initPassport() {
           create: {
             email: primaryEmail!.email,
             name: profile.displayName,
-            provider: 'GITHUB',
+            provider: "GITHUB",
           },
           update: {
             name: profile.displayName,
@@ -97,8 +97,8 @@ export function initPassport() {
         });
 
         done(null, user);
-      },
-    ),
+      }
+    )
   );
 
   passport.serializeUser(function (user: any, cb) {
