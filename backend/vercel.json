@@ -2,14 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "./dist/index.js",
-      "use": "cd /src/db && npx prisma generate && cd ../../ && tsc -b && @vercel/node"
+      "src": "src/index.ts",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["src/db/schema.prisma"]
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/dist/index.js"
     }
   ]
 }
